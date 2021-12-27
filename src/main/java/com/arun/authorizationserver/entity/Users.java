@@ -18,10 +18,10 @@ import java.util.Set;
  * @author arun on 12/26/21
  */
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 @Getter
 @Setter
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

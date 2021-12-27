@@ -31,7 +31,7 @@ Create 2 entities, Roles and Users, the relationship between the 2 are many to m
                 private String name;
                 
                 @ManyToMany(mappedBy = "roles")
-                private Set<User> users;
+                private Set<Users> users;
                 
                 @Override
                 public String getAuthority() {
@@ -58,7 +58,7 @@ Create 2 entities, Roles and Users, the relationship between the 2 are many to m
           @Table(name = "User")
           @Getter
           @Setter
-          public class User {
+          public class Users {
               @Id
               @GeneratedValue(strategy = GenerationType.AUTO)
               private Long id;
@@ -72,5 +72,40 @@ Create 2 entities, Roles and Users, the relationship between the 2 are many to m
               private Set<Role> roles;
           }
 
-class Diagram
+Class Diagram
 ![class Diagram for users and roles](https://github.com/arun786-cloud/AuthorizationServer/blob/main/src/main/resources/images/user_role.png)
+
+Important classes to be configured in Spring Security, we implement the UserDetailsService interface to get the details of user from the DB.
+
+            package com.arun.authorizationserver.security;
+            
+            import com.arun.authorizationserver.entity.Users;
+            import com.arun.authorizationserver.repository.UserRepository;
+            import org.springframework.security.core.userdetails.User;
+            import org.springframework.security.core.userdetails.UserDetails;
+            import org.springframework.security.core.userdetails.UserDetailsService;
+            import org.springframework.security.core.userdetails.UsernameNotFoundException;
+            import org.springframework.stereotype.Service;
+            
+            /**
+            * @author arun on 12/26/21
+              */
+            
+            @Service
+            public class UserDetailsServiceImpl implements UserDetailsService {
+            private final UserRepository userRepository;
+            
+                public UserDetailsServiceImpl(UserRepository userRepository) {
+                    this.userRepository = userRepository;
+                }
+            
+                @Override
+                public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                    final Users userByEmail = userRepository.findByEmail(username);
+                    if (userByEmail == null) {
+                        throw new UsernameNotFoundException("User not found" + username);
+                    }
+                    
+                    return new User(userByEmail.getEmail(), userByEmail.getPassword(), userByEmail.getRoles());
+                }
+            }
