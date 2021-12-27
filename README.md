@@ -71,3 +71,6 @@ Create 2 entities, Roles and Users, the relationship between the 2 are many to m
               @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
               private Set<Role> roles;
           }
+
+class Diagram
+![class Diagram for users and roles](https://github.com/arun786-cloud/AuthorizationServer/blob/main/src/main/resources/images/user_role.png)
