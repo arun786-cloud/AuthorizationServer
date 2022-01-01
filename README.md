@@ -93,7 +93,7 @@ Important classes to be configured in Spring Security, we implement the UserDeta
             
             @Service
             public class UserDetailsServiceImpl implements UserDetailsService {
-            private final UserRepository userRepository;
+                private final UserRepository userRepository;
             
                 public UserDetailsServiceImpl(UserRepository userRepository) {
                     this.userRepository = userRepository;
